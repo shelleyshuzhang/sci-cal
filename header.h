@@ -3,6 +3,7 @@
 
 #include "BigNumOps.h"
 #include "RealNumOps.h"
+#include "AlgeExp.h"
 
 int Cardano(char *a, char *b, char *c, char *d, char **result);
 int Shengjin(char *a, char *b, char *c, char *d, char **result);
