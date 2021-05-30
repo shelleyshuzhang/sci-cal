@@ -13,7 +13,7 @@ char input[11][2][200] = {
     {"0.43147969564671995", "0.6453613480130918"},
     {"-0.9438615681131504", "-0.1399529955883273"},
     {"305392825537888532.3480130918", "98543189511.7624961732183541"},
-    {"1", "2"}
+    {"8", "2"}
 };
 
 int main()
@@ -30,7 +30,7 @@ int main()
         sub = RealBigNumSub(a, b);
         mul = RealBigNumMul(a, b);
         div = RealBigNumDiv(a, b);
-        pow = RealBigNumPow(a, 10);
+        pow = RealBigNumPow(a, 3);
         sqrt = RealBigNumSqrt(a);
 		root = RealBigNumRoot(a, 3);
 

@@ -14,7 +14,7 @@ typedef struct stack {
     int size;
 } charStack;
 
-char *infix_to_suffix(const char *, int, char *);
+char *infix_to_suffix(const char *, int);
 
 void init_char_stack(charStack *);
 
@@ -34,10 +34,14 @@ void clean_char_stack(charStack *s);
 
 int higher_priority(char, char);
 
-char* pop_top_str(charStack *s, char* str, int len);
+char *pop_top_str(charStack *s, char *str, int len);
 
-void push_top_str(charStack *s, const char* str, int len);
+void push_top_str(charStack *s, const char *str, int len);
 
-void cal_suffix(char* suffix, int len);
+char *cal_suffix(char *suffix, int len);
+
+char *read_exp(FILE *f);
+
+void write_exp(FILE *f, char *exp, char *res);
 
 #endif //CAL_ALGEEXP_H

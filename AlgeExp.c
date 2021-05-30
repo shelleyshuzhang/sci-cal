@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <unistd.h>
 #include "RealNumOps.h"
 #include "BigNumOps.h"
 #include "AlgeExp.h"
@@ -17,8 +18,10 @@
 #define STACK_INCREASE 200
 #define BIG_N_INIT_SIZE 30
 #define BIG_N_INCREASE 15
+#define MAX_LINE 20
+#define FINAL_ACCURACY 10
 
-void cal_suffix(char *suffix, int len) {
+char *cal_suffix(char *suffix, int len) {
     charStack exp;
     init_char_stack(&exp);
     int index = 0;
@@ -60,7 +63,34 @@ void cal_suffix(char *suffix, int len) {
             } else {
                 char *result;
                 if (c == '^') {
-                    // TODO
+                    // TODO: Check Max Integer Error
+                    if (RealBigNumAbsCmp(bigN1, "1") >= 0) {
+                        int exponent = atoi(bigN1);
+                        if (exponent < 0) {
+                            exponent = 0 - exponent;
+                            result = RealBigNumPow(bigN2, exponent);
+                            result = RealBigNumDiv("1", result);
+                        } else {
+                            result = RealBigNumPow(bigN2, exponent);
+                        }
+                    } else {
+                        double exponent = strtod(bigN1, NULL);
+                        if (exponent < 0) {
+                            exponent = 0.0 - exponent;
+                        }
+                        exponent = 1.0 / exponent;
+                        double leftover = exponent - (int) exponent;
+                        int expo;
+                        if (leftover > 0.5) {
+                            expo = (int) exponent + 1;
+                        } else {
+                            expo = (int) exponent;
+                        }
+                        result = RealBigNumRoot(bigN2, expo);
+                        if (RealBigNumCmp(bigN1, "0") < 0) {
+                            result = RealBigNumDiv("1", result);
+                        }
+                    }
                 } else if (c == '*') {
                     result = RealBigNumMul(bigN1, bigN2);
                 } else if (c == '/') {
@@ -74,7 +104,9 @@ void cal_suffix(char *suffix, int len) {
                 free(bigN2);
                 int res_len = (int) strlen(result);
                 push_top_str(&exp, result, res_len);
-                free(result);
+                if (result != NULL) {
+                    free(result);
+                }
             }
             index++;
             continue;
@@ -85,14 +117,10 @@ void cal_suffix(char *suffix, int len) {
     bigN3 = (char *) malloc((BIG_N_INIT_SIZE) * sizeof(char));
     int len3 = BIG_N_INIT_SIZE;
     bigN3 = pop_top_str(&exp, bigN3, len3);
-
     bigN3 = BigNumReverse(bigN3);
-
-    puts(bigN3);
-
-    free(bigN3);
     clean_char_stack(&exp);
 
+    return bigN3;
 }
 
 char *pop_top_str(charStack *s, char *str, int len) {
@@ -194,7 +222,7 @@ void clean_char_stack(charStack *s) {
  * @param string
  * @param len
  */
-char *infix_to_suffix(const char *string, int len, char *suffix) {
+char *infix_to_suffix(const char *string, int len) {
     charStack exp;
     init_char_stack(&exp);
     int index = 0;
@@ -203,6 +231,8 @@ char *infix_to_suffix(const char *string, int len, char *suffix) {
     int is_digit = 0;
     char ops[6] = {'(', '^', '*', '/', '+', '-'};
     char c;
+    char *suffix;
+    suffix = (char *) malloc((suffix_len + 1) * sizeof(char));
     while (index < len) {
         c = *(string + index);
 
@@ -302,7 +332,7 @@ char *infix_to_suffix(const char *string, int len, char *suffix) {
     }
     suffix[suffix_index] = '\0';
     clean_char_stack(&exp);
-    puts(suffix);
+    // puts(suffix);
     return suffix;
 }
 
@@ -326,4 +356,37 @@ int higher_priority(char op1, char op2) {
         }
     }
     return index1 < index2;
+}
+
+char *read_exp(FILE *f) {
+    char *result;
+    char str_line[MAX_LINE];
+    memset(str_line, '\0', MAX_LINE);
+    int len = MAX_LINE;
+    int index = 0;
+    result = (char *) malloc(MAX_LINE * sizeof(char));
+
+    while (!feof(f)) {
+        result = (char *) realloc(result, len * sizeof(char *));
+        fgets(str_line, MAX_LINE, f);
+        for (int i = 0; i < MAX_LINE; i++) {
+            if (str_line[i] == '#') {
+                result[index] = '\0';
+                return result;
+            }
+            if (str_line[i] != '\0' && str_line[i] != '\n') {
+                result[index++] = str_line[i];
+            }
+        }
+        len += MAX_LINE;
+    }
+    if (str_line[0] != '\0') {
+        perror("输入文件中表达式没有截止符号\n");
+        exit(0);
+    }
+    return result;
+}
+
+void write_exp(FILE *f, char *exp, char *res) {
+    fprintf(f, "Operation: %s\nResult: %s\n", exp, res);
 }
