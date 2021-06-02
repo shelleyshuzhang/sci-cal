@@ -5,6 +5,7 @@
 #include "RealNumOps.h"
 #include "AlgeExp.h"
 #include "Quadratic.h"
+#include "Conversion.h"
 
 int Cardano(char *a, char *b, char *c, char *d, char **result);
 int Shengjin(char *a, char *b, char *c, char *d, char **result);
