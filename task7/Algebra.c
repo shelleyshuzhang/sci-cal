@@ -1,13 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include "BigNumOps.h"
-#include "RealNumOps.h"
+#include "Algebra.h"
 
 char *IntBigNumGcd(char *a, char *b)
 {
-	int i;
 	char *point_a, *point_b, *point_c;
 	char *c;
 	int lena = strlen(a);

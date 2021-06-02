@@ -10,8 +10,8 @@
 #include <ctype.h>
 #include <string.h>
 #include <unistd.h>
-#include "RealNumOps.h"
-#include "BigNumOps.h"
+#include "../task1/RealNumOps.h"
+#include "../task1/BigNumOps.h"
 #include "AlgeExp.h"
 
 #define STACK_INIT_SIZE 400

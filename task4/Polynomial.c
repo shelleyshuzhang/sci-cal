@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <time.h>
-#include "BigNumOps.h"
-#include "RealNumOps.h"
+#include "./Polynomial.h"
 
 //#define DEBUG
 char *Mul3(char *a, char *b, char *c)

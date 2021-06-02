@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "RealNumOps.h"
+#include "../task1/RealNumOps.h"
 
 void quadratic_equ(char *a, char *b, char *c);
 

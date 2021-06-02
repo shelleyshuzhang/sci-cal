@@ -1,7 +1,4 @@
-#include <stdlib.h>
-#include <string.h>
-#include "RealNumOps.h"
-#include "BigNumOps.h"
+#include "./Math.h"
 
 char *inttostr(int num)
 {

@@ -1,7 +1,5 @@
 #include "RealNumOps.h"
 
-#define ACCURACY 10
-
 int point_locate(char *a) {
     int len = strlen(a);
     int i;
@@ -13,26 +11,26 @@ int point_locate(char *a) {
     return 0;
 }
 
-char *fill_zero(char *a, int osize, int nsize) {
-    char *n = malloc((nsize + 1));
+char *fill_zero(char *a, int o_size, int n_size) {
+    char *n = malloc((n_size + 1));
     int i, j = 0;
-    for (i = 0; i < osize; i++) {
+    for (i = 0; i < o_size; i++) {
         if ((a[i] != '-') && a[i] != '+' && a[i] != '.' && a[i] != '0') {
             break;
         }
     }
-    if (i == osize) {
+    if (i == o_size) {
         n[j] = '0';
         j++;
         goto done;
     }
-    for (; i < osize; i++) {
+    for (; i < o_size; i++) {
         if ((a[i] != '-') && a[i] != '+' && a[i] != '.') {
             n[j] = a[i];
             j++;
         }
     }
-    for (i = 0; i < nsize - osize; i++) {
+    for (i = 0; i < n_size - o_size; i++) {
         n[j] = '0';
         j++;
     }
@@ -304,7 +302,7 @@ char *RealBigNumDiv(char *a, char *b) {
     int asign = a[0] == '-' ? 1 : 0;
     int bsign = b[0] == '-' ? 1 : 0;
 
-    point_a = fill_zero(a, lena, lena + mpoint - apoint + ACCURACY);
+    point_a = fill_zero(a, lena, lena + mpoint - apoint + REAL_ACCURACY);
     point_b = fill_zero(b, lenb, lenb + mpoint - bpoint);
 
     if (asign ^ bsign) {
@@ -321,7 +319,7 @@ char *RealBigNumDiv(char *a, char *b) {
     if (strcmp(c, "inf") == 0)
         return c;
 
-    return format_real(c, asign, ACCURACY);
+    return format_real(c, asign, REAL_ACCURACY);
 }
 
 char *RealBigNumDiv_Rem(char *a, char *b, char *rem) {
@@ -410,13 +408,13 @@ char *RealBigNumSqrt(char *a) {
         return c;
     }
 
-    point_a = fill_zero(a, lena, lena + mpoint - apoint + ACCURACY * 2);
+    point_a = fill_zero(a, lena, lena + mpoint - apoint + REAL_ACCURACY * 2);
 
     c = UnsignedBigNumSqrt(point_a);
 
     free(point_a);
 
-    return format_real(c, asign, (mpoint / 2) + ACCURACY);
+    return format_real(c, asign, (mpoint / 2) + REAL_ACCURACY);
 }
 
 char *RealBigNumRoot(char *a, int num) {
@@ -429,12 +427,11 @@ char *RealBigNumRoot(char *a, int num) {
 
     int asign = a[0] == '-' ? 1 : 0;
 
-    point_a = fill_zero(a, lena, lena + mpoint - apoint + ACCURACY * num);
+    point_a = fill_zero(a, lena, lena + mpoint - apoint + REAL_ACCURACY * num);
 
     c = UnsignedBigNumRoot(point_a, num);
 
     free(point_a);
 
-    return format_real(c, asign, (mpoint / num) + ACCURACY);
+    return format_real(c, asign, (mpoint / num) + REAL_ACCURACY);
 }
-

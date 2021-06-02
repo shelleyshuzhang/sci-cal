@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "header.h"
+#include "../header.h"
 
 #define FINAL_ACCURACY 10
 

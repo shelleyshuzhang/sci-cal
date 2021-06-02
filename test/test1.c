@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "header.h"
+#include "../header.h"
 
 char input[11][2][200] = {
     {"10000000000000000000000", "1776623460607489027640429549"},

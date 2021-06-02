@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-#include "header.h"
+#include "../header.h"
 
 int main()
 {

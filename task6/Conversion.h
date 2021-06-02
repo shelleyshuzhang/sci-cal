@@ -9,9 +9,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "./RealNumOps.h"
-#include "./BigNumOps.h"
-#include "./AlgeExp.h"
+#include "../task1/RealNumOps.h"
+#include "../task1/BigNumOps.h"
+#include "../task2/AlgeExp.h"
 
 char *deep_copy(char *s, int offset);
 
