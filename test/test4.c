@@ -8,7 +8,6 @@ int main()
 {
 	char input[4][50];
 	char *cp[5], *sp[5];
-	int cj, sj;
 	int i, j;
 #if 1
 	srand(time(NULL));
@@ -26,7 +25,6 @@ int main()
 			for (j = 0; j < 5; j++) {
 				printf("%s %s\n", cp[j], sp[j]);
 			}
-			return -1;
 		}
 		for (j = 0; j < 5; j++) {
 			free(cp[j]);
@@ -34,11 +32,17 @@ int main()
 		}
 	}
 #else
-	cj = Cardano("1", "-6", "10", "-8", cp);
-	sj = Shengjin("1", "-6", "10", "-8", sp);
+    int cj, sj;
+	cj = Cardano("1", "-6", "-234", "-8", cp);
+	sj = Shengjin("1", "-6", "-234", "-8", sp);
 	printf("%d\n", AnswerMatch(cp, sp));
-	cj = Cardano("1", "0", "-6", "-4", cp);
-	sj = Shengjin("1", "0", "-6", "-4", sp);
+    if (AnswerMatch(cp, sp) < 0) {
+        for (j = 0; j < 5; j++) {
+            printf("%s %s\n", cp[j], sp[j]);
+        }
+    }
+	cj = Cardano("-70", "0", "-6", "-4", cp);
+	sj = Shengjin("-70", "0", "-6", "-4", sp);
 	printf("%d\n", AnswerMatch(cp, sp));
 	if (AnswerMatch(cp, sp) < 0) {
 			for (j = 0; j < 5; j++) {
@@ -56,8 +60,14 @@ int main()
 			}
 	}
 	//printf("%d\n", Cardano("1396918184", "376696776", "-2060975266", "-242588954", cp));
-	Cardano("1396918184", "376696776", "-2060975266", "-242588954", cp);
-	Shengjin("1396918184", "376696776", "-2060975266", "-242588954", sp);
+	Cardano("139691818402343422343243242",
+         "3766",
+         "-2060975266432423432423",
+         "-24258895443242342432432", cp);
+	Shengjin("139691818402343422343243242",
+          "3766",
+             "-2060975266432423432423",
+             "-24258895443242342432432", sp);
 	if (AnswerMatch(cp, sp) < 0) {
 			for (j = 0; j < 5; j++) {
 				printf("%s %s\n", cp[j], sp[j]);

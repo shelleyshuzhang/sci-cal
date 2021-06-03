@@ -5,7 +5,7 @@
 #include <string.h>
 #include "BigNumOps.h"
 
-#define REAL_ACCURACY 10
+#define REAL_ACCURACY 20
 
 /**
  *

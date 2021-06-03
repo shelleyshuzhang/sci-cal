@@ -1,5 +1,7 @@
 #include "./Polynomial.h"
 
+#define COMPARE_TOLERANT "0.000000000001"
+
 //#define DEBUG
 char *Mul3(char *a, char *b, char *c)
 {
@@ -433,7 +435,7 @@ int RelativeEq(char *a, char *b)
 {
 	char *c = RealBigNumSub(a, b);
 
-	return RealBigNumAbsCmp(c, "0.00001") <= 0;
+	return RealBigNumAbsCmp(c, COMPARE_TOLERANT) <= 0;
 }
 
 int AnswerMatch(char **c, char **s)
