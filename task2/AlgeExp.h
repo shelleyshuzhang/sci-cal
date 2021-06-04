@@ -5,6 +5,14 @@
 #ifndef CAL_ALGEEXP_H
 #define CAL_ALGEEXP_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <unistd.h>
+#include "../task1/RealNumOps.h"
+#include "../task1/BigNumOps.h"
+
 typedef struct stack {
     // stack base
     char *base;

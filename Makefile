@@ -7,6 +7,7 @@ all:
 	gcc -c task2/AlgeExp.c -g -o output/AlgeExp.o
 	gcc -c task3/Quadratic.c -g -o output/Quadratic.o
 	gcc -c task6/Conversion.c -g -o output/Conversion.o
+	gcc -c header.c -g -o output/header.o
 	gcc test/test1.c  output/BigNumOps.o  output/RealNumOps.o output/Math.o output/Polynomial.o output/Algebra.o output/AlgeExp.o output/Quadratic.o output/Conversion.o -lm -g -o test1
 	gcc test/test2.c  output/BigNumOps.o  output/RealNumOps.o output/Math.o output/Polynomial.o output/Algebra.o output/AlgeExp.o output/Quadratic.o output/Conversion.o -lm -g -o test2
 	gcc test/test3.c  output/BigNumOps.o  output/RealNumOps.o output/Math.o output/Polynomial.o output/Algebra.o output/AlgeExp.o output/Quadratic.o output/Conversion.o -lm -g -o test3
@@ -14,3 +15,4 @@ all:
 	gcc test/test5.c  output/BigNumOps.o  output/RealNumOps.o output/Math.o output/Polynomial.o output/Algebra.o output/AlgeExp.o output/Quadratic.o output/Conversion.o -lm -g -o test5
 	gcc test/test6.c  output/BigNumOps.o  output/RealNumOps.o output/Math.o output/Polynomial.o output/Algebra.o output/AlgeExp.o output/Quadratic.o output/Conversion.o -lm -g -o test6
 	gcc test/test7.c  output/BigNumOps.o  output/RealNumOps.o output/Math.o output/Polynomial.o output/Algebra.o output/AlgeExp.o output/Quadratic.o output/Conversion.o -lm -g -o test7
+	gcc sci_cal.c  output/BigNumOps.o  output/RealNumOps.o output/Math.o output/Polynomial.o output/Algebra.o output/AlgeExp.o output/Quadratic.o output/Conversion.o output/header.o -lm -g -o sci_cal
