@@ -52,8 +52,8 @@ void quadratic_equ(char *a, char *b, char *c) {
                 printf("实数系一元二次方程 %sx^2 + %sx + %s "
                        "有两个实数解：\n",
                        a, b, c);
-                x1 = make_prec(x1, 10);
-                x2 = make_prec(x2, 10);
+                x1 = make_prec(x1, QUA_ACCU);
+                x2 = make_prec(x2, QUA_ACCU);
                 printf("x1 = %s\n", x1);
                 printf("x2 = %s\n", x2);
 
@@ -63,8 +63,8 @@ void quadratic_equ(char *a, char *b, char *c) {
                 printf("实数系一元二次方程 %sx^2 + %sx + %s "
                        "有两个虚数解：\n",
                        a, b, c);
-                b_a2 = make_prec(b_a2, 10);
-                delta_a2 = make_prec(delta_a2, 10);
+                b_a2 = make_prec(b_a2, QUA_ACCU);
+                delta_a2 = make_prec(delta_a2, QUA_ACCU);
                 printf("x1 = %s + %si\n", b_a2, delta_a2);
                 printf("x2 = %s - %si\n", b_a2, delta_a2);
             }
@@ -82,7 +82,7 @@ void quadratic_equ(char *a, char *b, char *c) {
             printf("实数系一元二次方程 %sx^2 + %sx + %s "
                    "有两个相等实数解：\n",
                    a, b, c);
-            x = make_prec(x, 10);
+            x = make_prec(x, QUA_ACCU);
             printf("x1 = x2 = %s\n", x);
 
             free(x);
@@ -103,7 +103,7 @@ void quadratic_equ(char *a, char *b, char *c) {
         printf("实数系一元一次方程 %sx^2 + %sx + %s "
                "有一个实数解：\n",
                a, b, c);
-        x = make_prec(x, 10);
+        x = make_prec(x, QUA_ACCU);
         printf("x = %s\n", x);
 
         free(c_neg);

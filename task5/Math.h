@@ -6,29 +6,33 @@
 #include "../task1/RealNumOps.h"
 #include "../task1/BigNumOps.h"
 
-/**
- *
- * @param a (char) a degree
- * @return
- */
 char *RealBigNumSin(char *a);
 
 char *RealBigNumCos(char *a);
 
 char *RealBigNumTan(char *a);
 
+char *RealBigNumSec(char *a);
+
+char *RealBigNumCsc(char *a);
+
+char *RealBigNumCot(char *a);
+
 char *RealBigNumLn(char *a);
 
-/**
- *
- * @param in (char*) arc sin
- * @return the radian of arc sin(in)
- */
+char *RealBigNumLog(char *base, char *value);
+
 char* RealBigArcSin(char* in);
 
 char* RealBigArcCos(char* in);
 
 char* RealBigArcTan(char* in);
+
+char* RealBigArcSec(char* in);
+
+char* RealBigArcCsc(char* in);
+
+char* RealBigArcCot(char* in);
 
 double d_asin(double in);
 

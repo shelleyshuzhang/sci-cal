@@ -12,8 +12,7 @@ void user_manual();
 int start_the_program();
 
 int main() {
-    while (1)
-    {
+    while (1) {
         printf("\n%s\n", PAGE_SEP);
         printf("用户你好，欢迎来到本产品的菜单界面:\n\n");
         printf("1.开始使用产品功能请按 'enter'\n");
@@ -70,8 +69,7 @@ int start_the_program() {
             printf("请选择:");
             scanf("%d", &calculator);
             flush_linux();
-            switch (calculator)
-            {
+            switch (calculator) {
                 case 1:
                     normal_calculation();
                     break;
@@ -91,13 +89,10 @@ int start_the_program() {
                     printf("\n%s\n", PAGE_SEP);
                     printf("对不起!\n你输入的命令错误，请重新输入.\n\n");
             }
-        }
-        else if (strcmp(e1, anti_type) == 0)
-        {
+        } else if (strcmp(e1, anti_type) == 0) {
             break;
         } else if ((strcmp(e1, type) != 0) &&
-                   (strcmp(e1, anti_type) != 0))
-        {
+                   (strcmp(e1, anti_type) != 0)) {
             printf("\n%s\n", PAGE_SEP);
             printf("对不起!\n你输入的命令错误，请重新输入.\n\n");
             continue;
@@ -107,7 +102,7 @@ int start_the_program() {
 }
 
 void user_manual() {
-    char* cm;
+    char *cm;
     while (1) {
         printf("\n%s\n", PAGE_SEP);
         printf("欢迎来到使用说明界面\n");
