@@ -1,7 +1,3 @@
-//
-// Created by 张舒 on 6/3/21.
-//
-
 #ifndef CAL_ALGEBRA_H
 #define CAL_ALGEBRA_H
 

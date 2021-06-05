@@ -5,12 +5,12 @@
 #define PI "3.14159265358979323846264338327950288"
 #define TRIG_ACCURACY_SIZE 20
 #define ARC_TRIG_ACCU "0.0001"
+#define TRIG_RES_ACCU 20
 
-char *inttostr(int num)
-{
+char *inttostr(int num) {
     char *p = malloc(sizeof(char) * 100);
     int i;
-    for(i = 0; num != 0; i++) {
+    for (i = 0; num != 0; i++) {
         p[i] = '0' + (num % 10);
         num /= 10;
     }
@@ -20,47 +20,43 @@ char *inttostr(int num)
     return p;
 }
 
-char* convert_radian(char* radian) {
-    char* angle;
-    char* angle180 = RealBigNumMul(radian, "180");
+char *convert_radian(char *radian) {
+    char *angle;
+    char *angle180 = RealBigNumMul(radian, "180");
     angle = RealBigNumDiv(angle180, PI);
     return angle;
 }
 
-char* convert_degree(char* degree) {
-    char* radian;
-    char* d_pi = RealBigNumMul(degree, PI);
-    d_pi = make_prec(d_pi, 10);
+char *convert_degree(char *degree) {
+    char *radian;
+    char *d_pi = RealBigNumMul(degree, PI);
+    d_pi = make_prec(d_pi, TRIG_RES_ACCU);
     radian = RealBigNumDiv(d_pi, "180");
     return radian;
 }
 
-char *F2S(double d, char *str)
-{
+char *F2S(double d, char *str) {
     char str1[100];
     int j = 0, k, i;
-    i = (int)d;
-    while(i > 0)
-    {
+    i = (int) d;
+    while (i > 0) {
         str1[j++] = i % 10 + '0';
         i = i / 10;
     }
 
-    for(k = 0;k < j;k++)
-    {
-        str[k] = str1[j-1-k];
+    for (k = 0; k < j; k++) {
+        str[k] = str1[j - 1 - k];
     }
 
     str[j++] = '.';
 
-    d = d - (int)d;
-    for(i = 0;i < 10;i++)
-    {
-        d = d*10;
-        str[j++] = (int)d + '0';
-        d = d - (int)d;
+    d = d - (int) d;
+    for (i = 0; i < 10; i++) {
+        d = d * 10;
+        str[j++] = (int) d + '0';
+        d = d - (int) d;
     }
-    while(str[--j] == '0');
+    while (str[--j] == '0');
     str[++j] = '\0';
     return str;
 }
@@ -70,7 +66,7 @@ double sin_double(double x) {
     double ex = 0.000001;
     double temp, sin = 0.0, i = 0.0;
     temp = x;
-    while(fabs(temp) > ex) {
+    while (fabs(temp) > ex) {
         sin += temp;
         i += 2;
         temp = (-1) * temp * x * x / ((i + 1) * (i));
@@ -78,8 +74,7 @@ double sin_double(double x) {
     return sin;
 }
 
-char *RealBigNumSin(char *a)
-{
+char *RealBigNumSin(char *a) {
     /* 这里，建议a作为参数表示度数 */
     char *f, *x, *c;
     char *ret, *t;
@@ -120,7 +115,7 @@ char *RealBigNumSin(char *a)
 
     i = 2;
 
-    while(1) {
+    while (1) {
         const_num = inttostr(i);
         t = RealBigNumMul(f, const_num);
         free(const_num);
@@ -158,16 +153,15 @@ char *RealBigNumSin(char *a)
     free(rem);
     free(x);
     free(f);
-    return make_prec(c, 8);
+    return make_prec(c, TRIG_RES_ACCU);
 }
 
-char *RealBigNumCos(char *a)
-{
+char *RealBigNumCos(char *a) {
     /* 这里，建议a作为参数表示度数 */
     char *f, *x, *c;
     char *ret, *t;
     int i;
-    int len =strlen(a);
+    int len = strlen(a);
     char *const_num;
     char *div_d = "360";
     char *pi = PI;
@@ -201,7 +195,7 @@ char *RealBigNumCos(char *a)
 
     i = 1;
 
-    while(1) {
+    while (1) {
         const_num = inttostr(i);
         t = RealBigNumMul(f, const_num);
         free(const_num);
@@ -233,16 +227,15 @@ char *RealBigNumCos(char *a)
     free(rem);
     free(x);
     free(f);
-    return make_prec(c, 8);
+    return make_prec(c, TRIG_RES_ACCU);
 }
 
-char *RealBigNumLn(char *a)
-{
+char *RealBigNumLn(char *a) {
     char *f, *f1, *f2;
     char *ret, *t;
     char *m, *n;
     int i;
-    int len =strlen(a);
+    int len = strlen(a);
     char const_num[3];
     int size = 0;
     int sign = 0;
@@ -289,7 +282,6 @@ char *RealBigNumLn(char *a)
     free(n);
 
 
-
     len = strlen(f);
     ret = malloc(len + 2);
     memcpy(ret, f, len + 1);
@@ -298,7 +290,7 @@ char *RealBigNumLn(char *a)
     memcpy(f1, f, len + 1);
     f1[len] = 0;
     i = 2;
-    while(1) {
+    while (1) {
         f2 = RealBigNumMul(f1, f);
         free(f1);
         if (i % 2) {
@@ -326,7 +318,7 @@ char *RealBigNumLn(char *a)
     free(ret);
     free(tmp);
 
-    return make_prec(f, 8);
+    return make_prec(f, TRIG_RES_ACCU);
 }
 
 double d_asin(double in) {
@@ -338,10 +330,8 @@ double d_asin(double in) {
     unsigned int i = 0, ii;
     double mid = result_b * result_c;
 
-    while (fabs(mid) > 0.000001)
-    {
-        for(ii = 0; ii < (2 * i + 1); ii++)
-        {
+    while (fabs(mid) > 0.000001) {
+        for (ii = 0; ii < (2 * i + 1); ii++) {
             result_a *= (2.0 * ii + 1.0) / (2.0 * ii + 2.0);
             result_b *= (in * in);
         }
@@ -349,7 +339,8 @@ double d_asin(double in) {
         result_c = result_a / (ii + 2.0);
         mid = result_c * result_b;
         result += mid;
-        result_a = 1.0f; result_b = 1.0f;
+        result_a = 1.0f;
+        result_b = 1.0f;
         i++;
     }
     return result;
@@ -362,7 +353,7 @@ double d_acos(double in) {
     double temp = 1.0;
     i = 3;
     while (temp > 0.000001) {
-        t1 *= (double) (i-2) / (double) (i-1);
+        t1 *= (double) (i - 2) / (double) (i - 1);
         t2 *= in;
         temp = (t1 * t2 / (double) i);
         ans += temp;
@@ -388,14 +379,14 @@ double d_atan(double in) {
     return ans;
 }
 
-char* RealBigArcTan(char* in) {
+char *RealBigArcTan(char *in) {
     double d_in = strtod(in, NULL);
     if (d_in != 0.0) {
-        char* res;
+        char *res;
         double d_out = atan(d_in);
-        res = (char*) malloc(sizeof(char) * 100);
+        res = (char *) malloc(sizeof(char) * 100);
         res = F2S(d_out, res);
-        char* d_res = RealBigNumAdd(res, "0");
+        char *d_res = RealBigNumAdd(res, "0");
         return res;
     } else {
         char *ans = RealBigNumAdd("0", in);
@@ -430,14 +421,14 @@ char* RealBigArcTan(char* in) {
     }
 }
 
-char* RealBigArcSin(char* in) {
+char *RealBigArcSin(char *in) {
     double d_in = strtod(in, NULL);
     if (d_in != 0.0) {
-        char* res;
+        char *res;
         double d_out = asin(d_in);
-        res = (char*) malloc(sizeof(char) * 100);
+        res = (char *) malloc(sizeof(char) * 100);
         res = F2S(d_out, res);
-        char* d_res = RealBigNumAdd(res, "0");
+        char *d_res = RealBigNumAdd(res, "0");
         return res;
     } else {
 
@@ -496,14 +487,14 @@ char* RealBigArcSin(char* in) {
     }
 }
 
-char* RealBigArcCos(char* in) {
+char *RealBigArcCos(char *in) {
     double d_in = strtod(in, NULL);
     if (d_in != 0.0) {
-        char* res;
+        char *res;
         double d_out = acos(d_in);
-        res = (char*) malloc(sizeof(char) * 100);
+        res = (char *) malloc(sizeof(char) * 100);
         res = F2S(d_out, res);
-        char* d_res = RealBigNumAdd(res, "0");
+        char *d_res = RealBigNumAdd(res, "0");
         return res;
     } else {
         char *res = RealBigNumAdd(in, "0");
@@ -543,68 +534,68 @@ char* RealBigArcCos(char* in) {
 }
 
 char *RealBigNumTan(char *a) {
-    char* a_sin = RealBigNumSin(a);
-    char* a_cos = RealBigNumCos(a);
-    char* a_tan = RealBigNumDiv(a_sin, a_cos);
-    char* a_tan_s = make_prec(a_tan, 10);
+    char *a_sin = RealBigNumSin(a);
+    char *a_cos = RealBigNumCos(a);
+    char *a_tan = RealBigNumDiv(a_sin, a_cos);
+    char *a_tan_s = make_prec(a_tan, TRIG_RES_ACCU);
     free(a_sin);
     free(a_cos);
     return a_tan_s;
 }
 
 char *RealBigNumSec(char *a) {
-    char* a_cos = RealBigNumCos(a);
-    char* a_sec = RealBigNumDiv("1", a_cos);
-    char* a_sec_s = make_prec(a_sec, 4);
+    char *a_cos = RealBigNumCos(a);
+    char *a_sec = RealBigNumDiv("1", a_cos);
+    char *a_sec_s = make_prec(a_sec, TRIG_RES_ACCU);
     free(a_cos);
     return a_sec_s;
 }
 
 char *RealBigNumCsc(char *a) {
-    char* a_sin = RealBigNumSin(a);
-    char* a_csc = RealBigNumDiv("1", a_sin);
-    char* a_csc_s = make_prec(a_csc, 4);
+    char *a_sin = RealBigNumSin(a);
+    char *a_csc = RealBigNumDiv("1", a_sin);
+    char *a_csc_s = make_prec(a_csc, TRIG_RES_ACCU);
     free(a_sin);
     return a_csc_s;
 }
 
 char *RealBigNumCot(char *a) {
-    char* a_sin = RealBigNumSin(a);
-    char* a_cos = RealBigNumCos(a);
-    char* a_tan = RealBigNumDiv(a_sin, a_cos);
-    char* a_cot = RealBigNumDiv("1", a_tan);
-    char* a_cot_s = make_prec(a_cot, 4);
+    char *a_sin = RealBigNumSin(a);
+    char *a_cos = RealBigNumCos(a);
+    char *a_tan = RealBigNumDiv(a_sin, a_cos);
+    char *a_cot = RealBigNumDiv("1", a_tan);
+    char *a_cot_s = make_prec(a_cot, TRIG_RES_ACCU);
     free(a_cos);
     free(a_tan);
     return a_cot_s;
 }
 
-char* RealBigArcSec(char* in) {
-    char* in_1 = RealBigNumDiv("1", in);
-    char* arc_cos = RealBigArcCos(in_1);
+char *RealBigArcSec(char *in) {
+    char *in_1 = RealBigNumDiv("1", in);
+    char *arc_cos = RealBigArcCos(in_1);
     free(in_1);
     return arc_cos;
 }
 
-char* RealBigArcCsc(char* in) {
-    char* in_1 = RealBigNumDiv("1", in);
-    char* arc_sin = RealBigArcSin(in_1);
+char *RealBigArcCsc(char *in) {
+    char *in_1 = RealBigNumDiv("1", in);
+    char *arc_sin = RealBigArcSin(in_1);
     free(in_1);
     return arc_sin;
 }
 
-char* RealBigArcCot(char* in) {
-    char* arc_cot;
+char *RealBigArcCot(char *in) {
+    char *arc_cot;
     if (RealBigNumCmp(in, "0") >= 0) {
-        char* arc_tan = RealBigArcTan(in);
-        char* pi_2 = RealBigNumDiv(PI, "2");
+        char *arc_tan = RealBigArcTan(in);
+        char *pi_2 = RealBigNumDiv(PI, "2");
         arc_cot = RealBigNumSub(pi_2, arc_tan);
         free(arc_tan);
         free(pi_2);
     } else {
-        char* neg_in = RealBigNumSub("0", in);
-        char* arc_tan = RealBigArcTan(neg_in);
-        char* pi_2 = RealBigNumDiv(PI, "2");
+        char *neg_in = RealBigNumSub("0", in);
+        char *arc_tan = RealBigArcTan(neg_in);
+        char *pi_2 = RealBigNumDiv(PI, "2");
         arc_cot = RealBigNumSub(pi_2, arc_tan);
         arc_cot = RealBigNumSub(PI, arc_cot);
         free(neg_in);
@@ -616,8 +607,8 @@ char* RealBigArcCot(char* in) {
 
 char *RealBigNumLog(char *base, char *value) {
     // log_aB = log_cB / log_cA
-    char* b = RealBigNumLn(base);
-    char* v = RealBigNumLn(value);
-    char* log_bV = RealBigNumDiv(v, b);
+    char *b = RealBigNumLn(base);
+    char *v = RealBigNumLn(value);
+    char *log_bV = RealBigNumDiv(v, b);
     return log_bV;
 }

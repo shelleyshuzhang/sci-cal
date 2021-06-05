@@ -1,7 +1,3 @@
-//
-// Created by 张舒 on 6/2/21.
-//
-
 #ifndef CAL_CONVERSION_H
 #define CAL_CONVERSION_H
 

@@ -65,8 +65,8 @@ void quadratic_equ(char *a, char *b, char *c) {
                        a, b, c);
                 b_a2 = make_prec(b_a2, QUA_ACCU);
                 delta_a2 = make_prec(delta_a2, QUA_ACCU);
-                printf("x1 = %s + %si\n", b_a2, delta_a2);
-                printf("x2 = %s - %si\n", b_a2, delta_a2);
+                printf("x1 = %s + %s i\n", b_a2, delta_a2);
+                printf("x2 = %s - %s i\n", b_a2, delta_a2);
             }
 
             free(sqrt_delta);

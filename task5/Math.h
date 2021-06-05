@@ -22,17 +22,17 @@ char *RealBigNumLn(char *a);
 
 char *RealBigNumLog(char *base, char *value);
 
-char* RealBigArcSin(char* in);
+char *RealBigArcSin(char *in);
 
-char* RealBigArcCos(char* in);
+char *RealBigArcCos(char *in);
 
-char* RealBigArcTan(char* in);
+char *RealBigArcTan(char *in);
 
-char* RealBigArcSec(char* in);
+char *RealBigArcSec(char *in);
 
-char* RealBigArcCsc(char* in);
+char *RealBigArcCsc(char *in);
 
-char* RealBigArcCot(char* in);
+char *RealBigArcCot(char *in);
 
 double d_asin(double in);
 
@@ -40,8 +40,8 @@ double d_acos(double in);
 
 double d_atan(double in);
 
-char* convert_radian(char* radian);
+char *convert_radian(char *radian);
 
-char* convert_degree(char* degree);
+char *convert_degree(char *degree);
 
 #endif //CAL_MATH_H
