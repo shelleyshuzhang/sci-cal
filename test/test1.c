@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "header.h"
+#include "../header.h"
 
-char input[10][2][200] = {
+char input[11][2][200] = {
     {"10000000000000000000000", "1776623460607489027640429549"},
     {"9018820267632691720887653113", "7479189517215109415136809078"},
     {"6122774001502686413768917378", "6122774001502686413768917378"},
@@ -13,6 +13,7 @@ char input[10][2][200] = {
     {"0.43147969564671995", "0.6453613480130918"},
     {"-0.9438615681131504", "-0.1399529955883273"},
     {"305392825537888532.3480130918", "98543189511.7624961732183541"},
+    {"8", "2"}
 };
 
 int main()
@@ -21,7 +22,7 @@ int main()
     int i;
 	char *a, *b;
 	//scanf("%s %s", a, b); //  We can select element from keyboard input;   
-    for (i = 0 ; i < 10; i++) {
+    for (i = 0 ; i < 11; i++) {
         printf("input %s %s\n", input[i][0], input[i][1]);
         a = input[i][0];
         b = input[i][1];
@@ -29,7 +30,7 @@ int main()
         sub = RealBigNumSub(a, b);
         mul = RealBigNumMul(a, b);
         div = RealBigNumDiv(a, b);
-        pow = RealBigNumPow(a, 10);
+        pow = RealBigNumPow(a, 3);
         sqrt = RealBigNumSqrt(a);
 		root = RealBigNumRoot(a, 3);
 

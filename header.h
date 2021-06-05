@@ -1,14 +1,31 @@
 #ifndef _ALL_HEADER_H_
 #define _ALL_HEADER_H_
 
-#include "BigNumOps.h"
-#include "RealNumOps.h"
+#include <unistd.h>
 
-int Cardano(char *a, char *b, char *c, char *d, char **result);
-int Shengjin(char *a, char *b, char *c, char *d, char **result);
-int AnswerMatch(char **c, char **s);
+#include "task1/BigNumOps.h"
+#include "task1/RealNumOps.h"
+#include "task2/AlgeExp.h"
+#include "task3/Quadratic.h"
+#include "task4/Polynomial.h"
+#include "task5/Math.h"
+#include "task6/Conversion.h"
+#include "task7/Algebra.h"
 
-char *IntBigNumGcd(char *a, char *b);
-void Gauss(char **aa, char **ab, char **x, int n);
+#define PAGE_SEP "**********************************************************************"
+
+int normal_calculation();
+
+int quadratic();
+
+int cubic();
+
+int trigonometry();
+
+int simple_algebra();
+
+char* get_user_input_string();
+
+void flush_linux();
 
 #endif
