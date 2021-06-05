@@ -29,6 +29,7 @@ int main() {
     char c;
     int index = 0;
 
+    printf("请输入一个数值:\n");
     while ((c = getchar()) != '\n' && index < 100) {
         input[index++] = c;
     }
