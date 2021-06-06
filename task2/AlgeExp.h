@@ -1,7 +1,3 @@
-//
-// Created by 张舒 on 5/29/21.
-//
-
 #ifndef CAL_ALGEEXP_H
 #define CAL_ALGEEXP_H
 

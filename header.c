@@ -1,11 +1,7 @@
-//
-// Created by 张舒 on 6/4/21.
-//
-
 #include "./header.h"
 
 #define MAX_STR_INPUT_SIZE 100
-#define FINAL_ACCURACY 4
+#define FINAL_ACCURACY 6
 
 char *get_user_input_string() {
     char *file_path;
@@ -120,8 +116,14 @@ int normal_calculation() {
 
                                 char *res = infix_to_suffix(cleaned_input,
                                                             (int) strlen(cleaned_input));
+                                if (strcmp(res, "error") == 0) {
+                                    goto jump;
+                                }
                                 char *result;
                                 result = cal_suffix(res, (int) strlen(res));
+                                if (strcmp(result, "error") == 0) {
+                                    goto jump;
+                                }
                                 result = make_prec(result, FINAL_ACCURACY);
 
                                 int result_case = -1;
@@ -198,9 +200,15 @@ int normal_calculation() {
 
                 char *res = infix_to_suffix(cleaned_input,
                                             (int) strlen(cleaned_input));
+                if (strcmp(res, "error") == 0) {
+                    goto jump;
+                }
                 char *result;
                 result = cal_suffix(res,
                                     (int) strlen(res));
+                if (strcmp(result, "error") == 0) {
+                    goto jump;
+                }
                 result = make_prec(result, FINAL_ACCURACY);
 
                 int result_case;
@@ -339,7 +347,7 @@ int cubic() {
                 printf("\n方程 %sx^3 + %sx^2 + %sx + %s = 0 的解为：\n",
                        a, b, c, d);
                 for (int i = 0; i < 5; i++) {
-                    res[i] = make_prec(res[i], 4);
+                    res[i] = make_prec(res[i], FINAL_ACCURACY);
                 }
                 printf("x1 = %s + 0.0 i\n", res[0]);
                 printf("x2 = %s + %s i\n", res[1], res[2]);
@@ -364,6 +372,27 @@ int cubic() {
                 scanf("%d", &n);
                 flush_linux();
 
+                printf("请输入想要验证的精确度n, 代表小数点后第几位：\n");
+                int conf_accu = 0;
+                scanf("%d", &conf_accu);
+                flush_linux();
+
+                char *confirm_accu;
+                if (conf_accu == 0) {
+                    confirm_accu = COMPARE_TOLERANT;
+                } else {
+                    confirm_accu = (char *) malloc(sizeof(char) * (conf_accu + 3));
+                    memset(confirm_accu, '\0', (conf_accu + 3));
+                    confirm_accu[0] = '0';
+                    confirm_accu[1] = '.';
+                    for (int i = 2; i < conf_accu + 1; i++) {
+                        confirm_accu[i] = '0';
+                    }
+                    confirm_accu[conf_accu + 1] = '1';
+                    confirm_accu = RealBigNumMul(confirm_accu, "1.0");
+                    puts(confirm_accu);
+                }
+
                 printf("自动生成%d个方程验证盛金公式：\n", n);
                 char input[4][50];
                 char *cp[5], *sp[5];
@@ -382,16 +411,26 @@ int cubic() {
                     Cardano(input[0], input[1], input[2], input[3], cp);
                     Shengjin(input[0], input[1], input[2], input[3], sp);
 
-                    if (AnswerMatch(cp, sp) < 0) {
+                    if (AnswerMatch(cp, sp, confirm_accu) < 0) {
                         printf("方程结果不一致\n");
                         printf("卡尔丹结果为：\n");
-                        printf("x1 = %s + 0.0 i\n", cp[0]);
-                        printf("x2 = %s + %s i\n", cp[1], cp[2]);
-                        printf("x3 = %s + %s i\n", cp[3], cp[4]);
+                        printf("x1 = %s + 0.0 i\n",
+                               make_prec(cp[0], conf_accu));
+                        printf("x2 = %s + %s i\n",
+                               make_prec(cp[1], conf_accu),
+                               make_prec(cp[2], conf_accu));
+                        printf("x3 = %s + %s i\n",
+                               make_prec(cp[3], conf_accu),
+                               make_prec(cp[4], conf_accu));
                         printf("盛金结果为：\n");
-                        printf("x1 = %s + 0.0 i\n", sp[0]);
-                        printf("x2 = %s + %s i\n", sp[1], sp[2]);
-                        printf("x3 = %s + %s i\n", sp[3], sp[4]);
+                        printf("x1 = %s + 0.0 i\n",
+                               make_prec(sp[0], conf_accu));
+                        printf("x2 = %s + %s i\n",
+                               make_prec(sp[1], conf_accu),
+                               make_prec(sp[2], conf_accu));
+                        printf("x3 = %s + %s i\n",
+                               make_prec(sp[3], conf_accu),
+                               make_prec(sp[4], conf_accu));
                     } else {
                         printf("方程结果在误差范围内一致\n");
                     }
@@ -445,7 +484,10 @@ int trigonometry() {
                 int result_case = -1;
                 printf("#sin请输入 1\n"
                        "#cos请输入 2\n"
-                       "#tan请输入 3\n");
+                       "#tan请输入 3\n"
+                       "#sec请输入 4\n"
+                       "#csc请输入 5\n"
+                       "#cot请输入 6\n");
                 printf("请输入：\n");
                 scanf("%d", &result_case);
                 flush_linux();
@@ -472,7 +514,7 @@ int trigonometry() {
                         break;
                     default:
                         printf("\n%s\n", PAGE_SEP);
-                        printf("对不起!\n你输入的命令错误，请重新输入.\n\n");
+                        printf("对不起!\n你输入的角度或弧度选择命令错误，请重新输入.\n\n");
                         goto jump;
                 }
 
@@ -487,6 +529,15 @@ int trigonometry() {
                     case 3:
                         tri_res = RealBigNumTan(tri_input);
                         break;
+                    case 4:
+                        tri_res = RealBigNumSec(tri_input);
+                        break;
+                    case 5:
+                        tri_res = RealBigNumCsc(tri_input);
+                        break;
+                    case 6:
+                        tri_res = RealBigNumCot(tri_input);
+                        break;
                     default:
                         printf("\n%s\n", PAGE_SEP);
                         printf("对不起!\n你输入的三角函数计算"
@@ -494,7 +545,7 @@ int trigonometry() {
                         goto jump;
                 }
 
-                tri_res = make_prec(tri_res, 4);
+                tri_res = make_prec(tri_res, FINAL_ACCURACY);
                 printf("\n计算结果为：%s\n", tri_res);
 
                 free(tri_input);
@@ -509,7 +560,10 @@ int trigonometry() {
                 int r_case = -1;
                 printf("#arc sin请输入 1\n"
                        "#arc cos请输入 2\n"
-                       "#arc tan请输入 3\n");
+                       "#arc tan请输入 3\n"
+                       "#arc sec请输入 4\n"
+                       "#arc csc请输入 5\n"
+                       "#arc cot请输入 6\n");
                 printf("请输入：\n");
                 scanf("%d", &r_case);
                 flush_linux();
@@ -523,20 +577,41 @@ int trigonometry() {
                 switch (r_case) {
                     case 1:
                         if (RealBigNumAbsCmp(t_input, "1") > 0) {
-                            printf("数值绝对值大于1，不存在反三角函数值\n");
+                            printf("\n%s\n", PAGE_SEP);
+                            printf("数值绝对值大于1，不存在arc sin值\n");
                             goto jump;
                         }
                         t_res = RealBigArcSin(t_input);
                         break;
                     case 2:
                         if (RealBigNumAbsCmp(t_input, "1") > 0) {
-                            printf("数值绝对值大于1，不存在反三角函数值\n");
+                            printf("\n%s\n", PAGE_SEP);
+                            printf("数值绝对值大于1，不存在arc cos值\n");
                             goto jump;
                         }
                         t_res = RealBigArcCos(t_input);
                         break;
                     case 3:
                         t_res = RealBigArcTan(t_input);
+                        break;
+                    case 4:
+                        if (RealBigNumAbsCmp(t_input, "1") < 0) {
+                            printf("\n%s\n", PAGE_SEP);
+                            printf("数值绝对值小于1，不存在arc sec值\n");
+                            goto jump;
+                        }
+                        t_res = RealBigArcSec(t_input);
+                        break;
+                    case 5:
+                        if (RealBigNumAbsCmp(t_input, "1") < 0) {
+                            printf("\n%s\n", PAGE_SEP);
+                            printf("数值绝对值小于1，不存在arc csc值\n");
+                            goto jump;
+                        }
+                        t_res = RealBigArcCsc(t_input);
+                        break;
+                    case 6:
+                        t_res = RealBigArcCot(t_input);
                         break;
                     default:
                         printf("\n%s\n", PAGE_SEP);
@@ -556,17 +631,17 @@ int trigonometry() {
 
                 switch (degree) {
                     case 1:
+                        t_res = convert_radian(t_res);
                         break;
                     case 2:
-                        t_res = convert_degree(t_res);
                         break;
                     default:
                         printf("\n%s\n", PAGE_SEP);
-                        printf("对不起!\n你输入的命令错误，请重新输入.\n\n");
+                        printf("对不起!\n你输入的角度或弧度选择命令错误，请重新输入.\n\n");
                         goto jump;
                 }
 
-                t_res = make_prec(t_res, 4);
+                t_res = make_prec(t_res, FINAL_ACCURACY);
                 printf("\n计算结果为：%s\n", t_res);
 
                 free(t_input);
@@ -577,22 +652,34 @@ int trigonometry() {
             case 3:
 
                 printf("\n%s\n", PAGE_SEP);
-                printf("请输入进行ln()计算的值：\n");
+                printf("请输入进行log_a(b)计算的值：\n");
+                printf("请输入底数a:\n");
+                char *a = get_user_input_string();
+                if (RealBigNumCmp(a, "0") <= 0 ||
+                    RealBigNumCmp(a, "1") == 0) {
+                    printf("\n%s\n", PAGE_SEP);
+                    printf("对数底数需大于0且不为1\n");
+                    goto jump;
+                }
+                printf("请输入需计算真数b:\n");
                 char *m = get_user_input_string();
+                if (RealBigNumCmp(m, "0") < 0) {
+                    printf("\n%s\n", PAGE_SEP);
+                    printf("对数真数需大于等于0\n");
+                    goto jump;
+                }
                 if (RealBigNumCmp(m, "0") == 0) {
-                    printf("计算结果为：ln(%s) = -infinity\n", m);
+                    printf("计算结果为：log%s(%s) = -infinity\n", a, m);
                     free(m);
-                    break;
-                } else if (RealBigNumCmp(m, "0") < 0) {
-                    printf("负数不存在 ln() 值\n");
-                    free(m);
+                    free(a);
                     break;
                 }
-                char *ln_res = RealBigNumLn(m);
-                ln_res = make_prec(ln_res, 4);
-                printf("计算结果为：ln(%s) = %s\n", m, ln_res);
+                char *ln_res = RealBigNumLog(a, m);
+                ln_res = make_prec(ln_res, FINAL_ACCURACY);
+                printf("计算结果为：log%s(%s) = %s\n", a, m, ln_res);
 
                 free(m);
+                free(a);
                 free(ln_res);
 
                 break;
@@ -679,7 +766,7 @@ int simple_algebra() {
                        "一个整型数，先行后列\n", n);
                 char **orig_b = (char **) malloc(sizeof(char *) * n);
                 for (int i = 0; i < n; i++) {
-                    printf("请输入 a(%d, 1):", i + 1);
+                    printf("请输入 b(%d, 1):", i + 1);
                     char *mb_input = get_user_input_string();
                     orig_b[i] = mb_input;
                 }
@@ -695,15 +782,23 @@ int simple_algebra() {
                 printf("\n增广矩阵\n");
                 for (int i = 0; i < n; i++) {
                     for (int j = 0; j < n; j++) {
-                        printf("%s\t", orig_matrix[i * n + j]);
+                        printf("%s\t\t\t", orig_matrix[i * n + j]);
                     }
                     printf("%s\n", orig_b[i]);
                 }
 
                 printf("解向量为：\n");
                 Gauss(orig_matrix, orig_b, x, n);
+
+                for (int i = 0; i < n; i++) {
+                    if (strcmp("inf", x[i]) == 0) {
+                        printf("此线性方程组有无穷解或无解\n");
+                        goto jump;
+                    }
+                }
+
                 for (int i = 0; i < n; i++)
-                    printf("%s\t", make_prec(x[i], 4));
+                    printf("%s\t\t\t", make_prec(x[i], FINAL_ACCURACY));
                 printf("\n");
 
                 for (int i = 0; i < size; i++) {

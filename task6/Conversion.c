@@ -2,7 +2,6 @@
 
 #define BIN_MAX_LEN 100
 #define OCT_MAX_LEN 70
-#define DEC_MAX_LEN 50
 #define HEX_MAX_LEN 30
 
 char hex[16] = {'0', '1', '2', '3', '4', '5', '6',
@@ -41,6 +40,7 @@ char *dec_to_binary(char *dec_s) {
         neg = 1;
         dec_s = RealBigNumSub("0", dec_s);
     }
+    dec_s = make_prec(dec_s, -1);
     char *bin_s;
     bin_s = (char *) malloc(sizeof(char) * BIN_MAX_LEN);
     memset(bin_s, '\0', BIN_MAX_LEN);
@@ -87,6 +87,7 @@ char *dec_to_oct(char *dec_s) {
         neg = 1;
         dec_s = RealBigNumSub("0", dec_s);
     }
+    dec_s = make_prec(dec_s, -1);
     char *oct_s;
     oct_s = (char *) malloc(sizeof(char) * OCT_MAX_LEN);
     memset(oct_s, '\0', OCT_MAX_LEN);
@@ -133,6 +134,7 @@ char *dec_to_hex(char *dec_s) {
         neg = 1;
         dec_s = RealBigNumSub("0", dec_s);
     }
+    dec_s = make_prec(dec_s, -1);
     char *hex_s;
     hex_s = (char *) malloc(sizeof(char) * HEX_MAX_LEN);
     memset(hex_s, '\0', HEX_MAX_LEN);

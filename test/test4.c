@@ -4,6 +4,8 @@
 #include <time.h>
 #include "../header.h"
 
+#define COMPARE_TOLERANT "0.000000000001"
+
 int main()
 {
 	char input[4][50];
@@ -20,7 +22,7 @@ int main()
 		printf("%s %s %s %s\n", input[0], input[1], input[2], input[3]);
 		Cardano(input[0], input[1], input[2], input[3], cp);
 		Shengjin(input[0], input[1], input[2], input[3], sp);
-		if (AnswerMatch(cp, sp) < 0) {
+		if (AnswerMatch(cp, sp, COMPARE_TOLERANT) < 0) {
 			printf("%d %sx^3 + %sx^2 + %sx + %s = 0\n", i, input[0], input[1], input[2], input[3]);
 			for (j = 0; j < 5; j++) {
 				printf("%s %s\n", cp[j], sp[j]);

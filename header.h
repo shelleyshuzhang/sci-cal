@@ -24,7 +24,7 @@ int trigonometry();
 
 int simple_algebra();
 
-char* get_user_input_string();
+char *get_user_input_string();
 
 void flush_linux();
 

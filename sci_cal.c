@@ -1,7 +1,3 @@
-//
-// Created by 张舒 on 6/4/21.
-//
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,8 +8,7 @@ void user_manual();
 int start_the_program();
 
 int main() {
-    while (1)
-    {
+    while (1) {
         printf("\n%s\n", PAGE_SEP);
         printf("用户你好，欢迎来到本产品的菜单界面:\n\n");
         printf("1.开始使用产品功能请按 'enter'\n");
@@ -70,8 +65,7 @@ int start_the_program() {
             printf("请选择:");
             scanf("%d", &calculator);
             flush_linux();
-            switch (calculator)
-            {
+            switch (calculator) {
                 case 1:
                     normal_calculation();
                     break;
@@ -91,13 +85,10 @@ int start_the_program() {
                     printf("\n%s\n", PAGE_SEP);
                     printf("对不起!\n你输入的命令错误，请重新输入.\n\n");
             }
-        }
-        else if (strcmp(e1, anti_type) == 0)
-        {
+        } else if (strcmp(e1, anti_type) == 0) {
             break;
         } else if ((strcmp(e1, type) != 0) &&
-                   (strcmp(e1, anti_type) != 0))
-        {
+                   (strcmp(e1, anti_type) != 0)) {
             printf("\n%s\n", PAGE_SEP);
             printf("对不起!\n你输入的命令错误，请重新输入.\n\n");
             continue;
@@ -107,7 +98,7 @@ int start_the_program() {
 }
 
 void user_manual() {
-    char* cm;
+    char *cm;
     while (1) {
         printf("\n%s\n", PAGE_SEP);
         printf("欢迎来到使用说明界面\n");
@@ -132,7 +123,7 @@ void user_manual() {
                "  示，如开三次方就是 ^(1/3)，负数必须添加括号，如 (-n)\n");
         printf("\n3.计算表达式时，文件输入模式提供默认读入和保存路径，文件中\n"
                "  每个表达式必须以'#'结尾\n");
-        printf("\n4.小数一般默认保存到小数点后4位\n");
+        printf("\n4.小数一般默认保存到小数点后6位\n");
         printf("\n5.进制默认使用前缀'0b'，'0o'，和'0x'分别代表二进制，八进制，\n"
                "  和十六进制，大小写均可，如'0b10010'，如果无前缀默认为十进制\n");
         printf("\n6.大整数求最大公约数时，如果输入小数，会自动取整\n");

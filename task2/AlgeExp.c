@@ -1,23 +1,13 @@
-//
-// Created by 张舒 on 5/29/21.
-//
-
-// TODO: FREE all malloc !!!!!!
-// 开方用 ^(1/n) 表示
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include <unistd.h>
 #include "../task1/RealNumOps.h"
-#include "../task1/BigNumOps.h"
 #include "AlgeExp.h"
 
 #define STACK_INIT_SIZE 400
 #define STACK_INCREASE 200
 #define BIG_N_INIT_SIZE 30
-#define BIG_N_INCREASE 15
 #define MAX_LINE 20
 #define FINAL_ACCURACY 10
 
@@ -59,7 +49,7 @@ char *cal_suffix(char *suffix, int len) {
 
             if (bigN1[0] == '\0' || bigN2[0] == '\0') {
                 printf("输入的表达式错误，运算符号与所需数字数量不匹配\n");
-                exit(0);
+                return "error";
             } else {
                 char *result;
                 if (c == '^') {
@@ -276,7 +266,7 @@ char *infix_to_suffix(const char *string, int len) {
                             if (c == '(') {
                                 if (index + 1 == len) {
                                     printf("输入表达式左右括号数量不匹配\n");
-                                    exit(0);
+                                    return "error";
                                 }
                                 char next = *(string + index + 1);
                                 if (next == '-') {
@@ -314,7 +304,7 @@ char *infix_to_suffix(const char *string, int len) {
                 }
                 if (!valid) {
                     printf("输入表达式左右括号数量不匹配\n");
-                    exit(0);
+                    return "error";
                 }
                 index++;
                 continue;
@@ -327,6 +317,7 @@ char *infix_to_suffix(const char *string, int len) {
         pop_char(&s_top, &exp);
         if (s_top == '(') {
             printf("输入表达式左右括号数量不匹配\n");
+            return "error";
         }
         suffix[suffix_index++] = s_top;
     }
